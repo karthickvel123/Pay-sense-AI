@@ -7,8 +7,25 @@ import os
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize database on startup
-    from app.database import init_db
+    from app.database import init_db, fetch_one
     await init_db()
+
+    # Auto-seed realistic transactions if the database is fresh/empty
+    try:
+        count_row = await fetch_one("SELECT COUNT(*) as count FROM payments")
+        if not count_row or (count_row.get("count") or 0) == 0:
+            from app.simulator.payment_simulator import PaymentSimulator
+            simulator = PaymentSimulator()
+            await simulator.generate_payment_history(num_payments=150)
+
+            from app.agent.tools import create_recovery_action
+            await create_recovery_action(
+                action_type="initial_baseline_scan",
+                target_payment_id="system_init"
+            )
+    except Exception as e:
+        print(f"Auto-seed warning: {e}")
+
     yield
 
 app = FastAPI(
