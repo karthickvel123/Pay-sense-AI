@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaySense AI - Agentic Revenue Recovery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Bar -->
+        <nav class="top-bar">
+            <div class="logo-section">
+                <div class="logo-icon"></div>
+                <div>
+                    <h1>PaySense AI</h1>
+                    <span class="tagline">Agentic Revenue Recovery</span>
+                </div>
+            </div>
+            <div class="top-actions">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span> System Online
+                </div>
+                <button id="simulate-btn" class="btn btn-secondary">
+                    Simulate Payments
+                </button>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <!-- Left Side: Dashboard -->
+            <main class="dashboard-panel">
+                <!-- Key Metrics -->
+                <section class="metrics-grid">
+                    <div class="metric-card">
+                        <h3>Total Revenue</h3>
+                        <div class="metric-value" id="metric-revenue">₹0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Success Rate</h3>
+                        <div class="metric-value" id="metric-success">0%</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Revenue Lost</h3>
+                        <div class="metric-value danger" id="metric-lost">₹0</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Health Score</h3>
+                        <div class="metric-value" id="metric-health">0</div>
+                    </div>
+                </section>
+
+                <!-- Charts Section -->
+                <section class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Payment Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="trendsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Failure Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="failureChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Revenue by Method</h3>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Risk Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Alerts & Decision Log Grid -->
+                <section class="logs-grid">
+                    <!-- Recent Alerts -->
+                    <div class="log-card">
+                        <div class="log-header">
+                            <h3>Recent Alerts</h3>
+                        </div>
+                        <div class="alerts-list" id="alerts-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Agent Decision Log -->
+                    <div class="log-card">
+                        <div class="log-header">
+                            <h3>Agent Decision Log</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="decisions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Action</th>
+                                        <th>Target</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="decisions-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Right Side: AI Chat Panel -->
+            <aside class="chat-panel">
+                <div class="chat-header">
+                    <div class="agent-info">
+                        <div class="agent-avatar">
+                            <span class="online-dot"></span>
+                        </div>
+                        <div>
+                            <h2>PaySense Agent</h2>
+                            <span class="status-text">Ready to analyze</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message agent">
+                        <div class="message-content">
+                            Hello! I'm your PaySense AI agent. I continuously monitor your payment streams. How can I help you today?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="runHealthScan()">Run Health Scan</button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Why are payments failing?')">Why are payments failing?</button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Show revenue leaks')">Show revenue leaks</button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Chargeback risk?')">Chargeback risk?</button>
+                    </div>
+                    
+                    <form id="chat-form" class="input-form">
+                        <input type="text" id="chat-input" placeholder="Ask about payments, risks, or recoveries..." autocomplete="off">
+                        <button type="submit" class="send-btn" id="send-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </button>
+                    </form>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <div id="toast-container"></div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
